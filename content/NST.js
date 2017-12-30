@@ -87,7 +87,7 @@ function preg_quote(str, delimiter) {
         TYPE_TAG              = 12,
         TYPE_STYLE            = 13,
         TYPE_AT_RULE          = 14,
-        MAX_BUFFER            = 150000
+        MAX_BUFFER            = 150000,
         // Display name
         NAME = 'NST';
   ///
@@ -388,7 +388,8 @@ function preg_quote(str, delimiter) {
           .replace(/id/g, id)
           .replace(/name/g, '(' + id + ')')
           .replace(/\,$/, '(?:\\s*[,{]\\s*$|\\s*$)') // fixed for CSS
-          .replace(/\(\)/g, '\\s*(\\([^}{;]*\\))\\s*'));
+          .replace(/\(\)/g, '\\s*(\\([^}{;]*\\))\\s*')
++         .replace(/\|/g, '\|'));
     };
     /**
      * Line parser initialization
@@ -423,7 +424,7 @@ function preg_quote(str, delimiter) {
         if (lc < 1) { // no level increase?
           if (line.indexOf('}') >= 0 || line.match(/,$/)) { // closed in the same line or block def?
             o = line.match(/\{(.*?)\}/); // one liners...
-            if (o && !o[1] && !self.text.match(/[^a-zA-Z0-9_]/)) { // empty?
+            if (o && !o[1] && !self.text.match(/[^a-zA-Z0-9_|]/)) { // empty?
               self.nodeLevels.pop();
               self.text = null; // skip small empty nodes with common names
             } else {
@@ -521,7 +522,7 @@ function preg_quote(str, delimiter) {
               this.text = this.text.replace(_jQuery_match, '');
               this.type = TYPE_JQUERY_EXT;
             } else
-            if ((m = line.match(/([_$a-zA-Z][_$a-zA-Z0-9]*)\.prototype\b/))) {
+            if ((m = line.match(/([_$a-zA-Z][_.$a-zA-Z0-9]*)\.prototype\b/))) {
               this.text = m[1] + '.prototype.' + this.text;
               this.type = TYPE_PROTOTYPE;
             }
@@ -1520,9 +1521,19 @@ function preg_quote(str, delimiter) {
             p = new LineParserCoffee();
             break;
           case 'Node.js':
+          case 'Backbone.js':
+            p = new LineParserJS(self.lang,
+                                 ['*name = *Backbone'],
+                                ['id.prototype.name = function()',
+                                 'function name() {',
+                                 '*name = function() {',
+                                 '*name : function() {']);
+            break;
           case 'JavaScript':
             p = new LineParserJS(self.lang,
-                                 ['name.prototype = {',
+                                 ['*name = *name || {}',
+                                  '*name = *Backbone',
+                                  'name.prototype = {',
                                   '*name = {',
                                   'name : {'],
                                 ['id.prototype.name = function()',
