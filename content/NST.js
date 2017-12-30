@@ -358,6 +358,7 @@ function preg_quote(str, delimiter) {
     var _classes = [], // class matching RE array
         _functions = [], // function matching RE array
         _jQuery_match = /^\s*\$\.|^\s*jQuery\./g; // jQuery matching RE
+        _Backbone_match = /[ ]*var\s*[\w.]+\s*=|[ ]*[\w.]+\s*=/g;
     /// Public properties
     this.index = -1;
     this.text = null; // node text
