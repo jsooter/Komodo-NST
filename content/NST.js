@@ -390,7 +390,7 @@ function preg_quote(str, delimiter) {
           .replace(/name/g, '(' + id + ')')
           .replace(/\,$/, '(?:\\s*[,{]\\s*$|\\s*$)') // fixed for CSS
           .replace(/\(\)/g, '\\s*(\\([^}{;]*\\))\\s*')
-+         .replace(/\|/g, '\|'));
+          .replace(/\|/g, '\|'));
     };
     /**
      * Line parser initialization
@@ -1573,7 +1573,7 @@ function preg_quote(str, delimiter) {
             break;
           case 'SCSS':
           case 'Sass':
-          case 'LESS': 
+          case 'LESS':
           case 'CSS':
             p = new LineParserJS(self.lang,
                                  ['@name,'],
