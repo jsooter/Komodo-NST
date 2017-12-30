@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # XPI Name
-_xpiName=NST-0.63-ko.xpi
+_xpiName=NST-0.65-ko.xpi
 
 # Check if the build directory exists
 if [ -d ./build ]
