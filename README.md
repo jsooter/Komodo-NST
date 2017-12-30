@@ -1,3 +1,18 @@
+## Komodo New Source Tree (Symbols Tree)
+
+This plugin adds a filterable code tree view for the current open file. I've
+modified it to show class declerations in javascript.
+
+```javascript
+MyNewNamespace.Subclass = Base.Class.extend({
+    prop1: 'foo',
+    prop2: 'bar'
+});
+```
+
+Original readme is below:
+----
+
 Code Browser -like extension for Komodo Edit
 
 by Adam Łyskawa
