@@ -1,14 +1,28 @@
 ## Komodo New Source Tree (Symbols Tree)
 
-This plugin adds a filterable code tree view for the current open file. I've
-modified it to show class declerations in javascript.
+This plugin adds a filterable code tree view for the current open file.
+Backbone.js classes don't show up in most source tree plugins so I've modified
+NST to show Backbone.js class declerations like the one below.
 
 ```javascript
-MyNewNamespace.Subclass = Base.Class.extend({
-    prop1: 'foo',
-    prop2: 'bar'
+Product.Views.ProductSearch = Backbone.View.extend({
+    el: '#search_bar',
+    template: _.template($('#product_search_template').html()),
+    initialize: function (){
+        console.log('Product.Views.ProductSearch init');
+        this.render();
+    },
+    render: function () {
+        $(this.el).empty();
+        $(this.el).append(this.template());
+    },
+    drop : function() {
+        this.undelegateEvents();
+        $(this.el).empty();
+    }
 });
 ```
+![Image of NST](NST_example.png)
 
 Original readme is below:
 ----
